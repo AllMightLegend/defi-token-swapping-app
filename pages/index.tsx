@@ -1,16 +1,14 @@
-// pages/index.tsx
 "use client"; // This ensures the component is treated as a client component
 import React, { useState } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
-import WalletConnector from '../components/WalletConnector';
 import { approveToken } from '../utils/approval';
 import { executeSwap } from '../utils/swap';
 import Layout from '../components/Layout';
-
+import { ethers } from 'ethers'; // Ensure proper import from ethers
 import styles from '../styles/Home.module.css';
 
 const IndexPage: React.FC = () => {
-  const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null);
+  const [provider, setProvider] = useState<Web3Provider | null>(null);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [fromToken, setFromToken] = useState<string>('ETH');
   const [toToken, setToToken] = useState<string>('DAI');
@@ -50,9 +48,8 @@ const IndexPage: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <Layout setWalletAddress={setWalletAddress} setProvider={setProvider}>
       <div className={styles.container}>
-        <WalletConnector setWalletAddress={setWalletAddress} setProvider={setProvider} />
         <div className={styles.swapSection}>
           <h2 className={styles.heading}>Swap Tokens</h2>
           <div className={styles.formGroup}>

@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Web3Provider } from '@ethersproject/providers';
-import WalletConnectProvider from "@walletconnect/web3-provider";
+const { ethers } = require("ethers"); // Ensure this import is added
+import { Web3Provider } from '@ethersproject/providers'; 
+import WalletConnectProvider from '@walletconnect/web3-provider';
 
-const WalletConnector: React.FC = () => {
+interface WalletConnectorProps {
+  setWalletAddress: React.Dispatch<React.SetStateAction<string | null>>;
+  setProvider: React.Dispatch<React.SetStateAction<Web3Provider | null>>;
+}
+
+
+const WalletConnector: React.FC<WalletConnectorProps> = () => {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null);
+  const [provider, setProvider] = useState<Web3Provider | null>(null);
 
   const connectWallet = async () => {
     try {
@@ -38,7 +45,7 @@ const WalletConnector: React.FC = () => {
     if (provider) {
       try {
         // Disconnect the WalletConnect provider
-        const walletConnectProvider = provider.provider as WalletConnectProvider;
+        const walletConnectProvider = provider.provider as any as WalletConnectProvider;
         await walletConnectProvider.disconnect();
         setWalletAddress(null);
         setProvider(null);

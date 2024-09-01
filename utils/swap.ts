@@ -1,9 +1,15 @@
-import { utils, BigNumber } from '@ethersproject/utils';
+ // Import everything from ethers
 import axios from 'axios';
-
+import { Web3Provider } from '@ethersproject/providers';
+const { ethers } = require("ethers");
 const SWAP_API_URL = 'https://api.0x.org/swap/v1/quote';
 
-export const executeSwap = async (fromToken: string, toToken: string, amount: string, provider: ethers.providers.Web3Provider) => {
+export const executeSwap = async (
+  fromToken: string,
+  toToken: string,
+  amount: string,
+  provider: Web3Provider // Use Web3Provider from ethers
+) => {
   const walletAddress = await provider.getSigner().getAddress();
 
   try {
@@ -11,7 +17,7 @@ export const executeSwap = async (fromToken: string, toToken: string, amount: st
       params: {
         buyToken: toToken,
         sellToken: fromToken,
-        sellAmount: ethers.utils.parseUnits(amount, 18).toString(),
+        sellAmount: ethers.parseUnits(amount, 18).toString(), // Correctly access parseUnits
         takerAddress: walletAddress,
       },
     });
@@ -21,7 +27,7 @@ export const executeSwap = async (fromToken: string, toToken: string, amount: st
     const tx = {
       to,
       data,
-      value: ethers.BigNumber.from(value).toHexString(),
+      value: ethers.BigNumber.from(value).toHexString(), // Correctly access BigNumber
       from: walletAddress,
     };
 
