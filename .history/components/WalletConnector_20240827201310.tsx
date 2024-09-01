@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Web3Provider } from '@ethersproject/providers';
+import { ethers } from 'ethers';
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 const WalletConnector: React.FC = () => {

@@ -1,5 +1,4 @@
-import { utils } from '@ethersproject/utils';
-// Other imports
+import { ethers } from 'ethers';
 
 export const approveToken = async (
   tokenAddress: string,
