@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { utils, BigNumber } from '@ethersproject/utils';
 import axios from 'axios';
 
 const SWAP_API_URL = 'https://api.0x.org/swap/v1/quote';
