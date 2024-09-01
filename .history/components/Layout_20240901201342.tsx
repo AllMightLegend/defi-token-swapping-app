@@ -1,13 +1,10 @@
+// components/Layout.tsx
 import React from 'react';
 import Head from 'next/head';
 import WalletConnector from './WalletConnector';
 import styles from '../styles/Layout.module.css';
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC = ({ children }) => {
   return (
     <div className={styles.layout}>
       <Head>
@@ -15,11 +12,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <meta name="description" content="A decentralized finance application" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header>
+      <header className={styles.header}>
+        <div className={styles.logo}>🚀 DeFi App</div>
         <WalletConnector />
       </header>
-      <main>{children}</main>
-      <footer>
+      <main className={styles.main}>{children}</main>
+      <footer className={styles.footer}>
         <p>&copy; {new Date().getFullYear()} DeFi App. All rights reserved.</p>
       </footer>
     </div>
