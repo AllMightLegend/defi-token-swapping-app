@@ -1,14 +1,31 @@
 import React, { useState } from 'react';
 import { executeSwap } from '../utils/swap';
+import { Web3Provider } from '@ethersproject/providers';
 
 const TokenSwap: React.FC = () => {
   const [fromToken, setFromToken] = useState('ETH');
   const [toToken, setToToken] = useState('DAI');
   const [amount, setAmount] = useState('');
+  const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null);
+
+  useEffect(() => {
+    // Check if MetaMask is installed
+    if (window.ethereum) {
+      const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
+      setProvider(web3Provider);
+    } else {
+      console.error('MetaMask not detected');
+    }
+  }, []);
 
   const handleSwap = async () => {
+    if (!provider) {
+      alert('Web3 provider not found. Please install MetaMask.');
+      return;
+    }
+
     try {
-      await executeSwap(fromToken, toToken, amount);
+      await executeSwap(fromToken, toToken, amount, provider);
       alert('Swap successful!');
     } catch (error) {
       console.error('Swap failed:', error);
