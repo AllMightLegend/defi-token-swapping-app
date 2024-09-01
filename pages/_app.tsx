@@ -29,11 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>{dynamicTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="A funky decentralized finance application for token swapping!" />
-        <link rel="icon" href="/funky-favicon.ico" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
-          rel="stylesheet"
-        />
+        <link rel="icon" href="/favicon.ico" />
         <style>
           {`
             body {

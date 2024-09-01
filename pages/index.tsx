@@ -1,7 +1,7 @@
 // pages/index.tsx
 "use client"; // This ensures the component is treated as a client component
 import React, { useState } from 'react';
-import { ethers } from 'ethers';
+import { Web3Provider } from '@ethersproject/providers';
 import WalletConnector from '../components/WalletConnector';
 import { approveToken } from '../utils/approval';
 import { executeSwap } from '../utils/swap';
