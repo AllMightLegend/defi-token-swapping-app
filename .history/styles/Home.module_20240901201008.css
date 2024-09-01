@@ -1,0 +1,125 @@
+/* styles/Home.module.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #1e1f29; /* Dark background for contrast */
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #f5f7fa; /* Light text for readability */
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #f5f7fa;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-size: 1rem;
+  color: #f5f7fa;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+select,
+input[type='number'] {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #383c4a; /* Subtle border for input fields */
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  box-sizing: border-box;
+  background-color: #2a2b37; /* Darker input background */
+  color: #f5f7fa; /* Light text inside inputs */
+}
+
+input[type='number'] {
+  -moz-appearance: textfield; /* For Firefox */
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* For Chrome */
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #ff5c5c; /* Bright, funky red */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #ff7675; /* Lighter red on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+button + button {
+  margin-left: 1rem;
+}
+
+.swapResult {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #22b455; /* Bright green for success */
+  border-left: 4px solid #14a76c;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.walletStatus {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #ffcc00; /* Vivid yellow for wallet status */
+  border-left: 4px solid #e1ad01;
+  border-radius: 8px;
+  color: #333;
+}
+
+.error {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #ff6f61; /* Bright red for errors */
+  border-left: 4px solid #e63946;
+  border-radius: 8px;
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  button + button {
+    margin-left: 0;
+  }
+}
