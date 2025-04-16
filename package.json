@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
+    "@react-spring/web": "^9.7.5",
     "@solana/web3.js": "^1.95.3",
     "@types/chart.js": "^2.9.41",
     "@walletconnect/web3-provider": "^1.8.0",
@@ -17,6 +18,8 @@
     "axios": "^1.7.5",
     "chart.js": "^4.4.4",
     "ethers": "^6.13.2",
+    "framer-motion": "^12.7.3",
+    "gsap": "^3.12.7",
     "next": "14.2.6",
     "react": "^18",
     "react-dom": "^18",

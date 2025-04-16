@@ -1,73 +1,111 @@
-import React, { useState, useEffect } from 'react';
-const { ethers } = require("ethers"); // Ensure this import is added
-import { Web3Provider } from '@ethersproject/providers'; 
+import React, { useState } from 'react';
+import { ethers } from "ethers";
+import { Web3Provider } from '@ethersproject/providers';
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import styles from '../styles/Layout.module.css';
+import FuzzyText from './FuzzyText';
 
 interface WalletConnectorProps {
   setWalletAddress: React.Dispatch<React.SetStateAction<string | null>>;
   setProvider: React.Dispatch<React.SetStateAction<Web3Provider | null>>;
 }
 
-
-const WalletConnector: React.FC<WalletConnectorProps> = () => {
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [provider, setProvider] = useState<Web3Provider | null>(null);
+const WalletConnector: React.FC<WalletConnectorProps> = ({ setWalletAddress, setProvider }) => {
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [walletAddress, setLocalWalletAddress] = useState<string | null>(null);
+  const [localProvider, setLocalProvider] = useState<Web3Provider | null>(null);
 
   const connectWallet = async () => {
     try {
-      // Create WalletConnect Provider
+      setIsConnecting(true);
       const walletConnectProvider = new WalletConnectProvider({
-        infuraId: "YOUR_INFURA_PROJECT_ID" // Replace with your Infura Project ID
+        infuraId: "YOUR_INFURA_PROJECT_ID"
       });
 
-      // Enable session (triggers QR Code modal)
       await walletConnectProvider.enable();
+      const provider = new Web3Provider(walletConnectProvider);
+      setLocalProvider(provider);
+      setProvider(provider);
 
-      // Create ethers provider
-      const ethersProvider = new ethers.providers.Web3Provider(walletConnectProvider);
-      setProvider(ethersProvider);
-
-      // Get the user's account address
-      const accounts = await ethersProvider.listAccounts();
-      if (accounts.length > 0) {
-        setWalletAddress(accounts[0]);
-      } else {
-        setWalletAddress(null);
-      }
-
-      console.log('Connected to wallet:', accounts[0]);
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+      setLocalWalletAddress(address);
+      setWalletAddress(address);
     } catch (error) {
       console.error('Error connecting to WalletConnect wallet:', error);
+      setLocalWalletAddress(null);
+      setWalletAddress(null);
+    } finally {
+      setIsConnecting(false);
     }
   };
 
   const disconnectWallet = async () => {
-    if (provider) {
+    if (localProvider) {
       try {
-        // Disconnect the WalletConnect provider
-        const walletConnectProvider = provider.provider as any as WalletConnectProvider;
+        const walletConnectProvider = localProvider.provider as any as WalletConnectProvider;
         await walletConnectProvider.disconnect();
+        setLocalWalletAddress(null);
         setWalletAddress(null);
+        setLocalProvider(null);
         setProvider(null);
-        console.log('Disconnected from wallet');
       } catch (error) {
         console.error('Error disconnecting from WalletConnect wallet:', error);
       }
     }
   };
 
-  useEffect(() => {
-    // No setup needed for WalletConnect on mount
-  }, []);
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  };
 
   return (
-    <div>
-      <button onClick={connectWallet}>
-        {walletAddress ? `Connected: ${walletAddress}` : 'Connect to WalletConnect'}
-      </button>
-      {walletAddress && (
-        <button onClick={disconnectWallet}>Disconnect</button>
+    <div className={styles.walletContainer}>
+      {isConnecting && (
+        <div className={styles.connectingOverlay}>
+          <pre className={styles.terminalText}>
+            {`
+╔════════════════════════════════╗
+║    ESTABLISHING CONNECTION     ║
+║      PLEASE STAND BY...       ║
+╚════════════════════════════════╝
+
+[${'.'.repeat(Math.floor(Date.now() / 500) % 20)}${' '.repeat(20 - Math.floor(Date.now() / 500) % 20)}]
+
+> CONNECTING TO WALLET...
+> AWAITING AUTHORIZATION...
+            `}
+          </pre>
+        </div>
       )}
+
+      <div className={styles.terminalBox}>
+        {walletAddress ? (
+          <div className={styles.walletInfo}>
+            <FuzzyText fontSize="1.5rem" color="#00FF00" baseIntensity={0.2}>
+              {`> WALLET: ${formatAddress(walletAddress)}`}
+            </FuzzyText>
+            <button
+              className={styles.terminalButton}
+              onClick={disconnectWallet}
+            >
+              <FuzzyText fontSize="1.5rem" color="#00FF00" baseIntensity={0.2}>
+                {`> DISCONNECT`}
+              </FuzzyText>
+            </button>
+          </div>
+        ) : (
+          <button
+            className={styles.terminalButton}
+            onClick={connectWallet}
+            disabled={isConnecting}
+          >
+            <FuzzyText fontSize="1.5rem" color="#00FF00" baseIntensity={0.2}>
+              {`> CONNECT_WALLET.exe`}
+            </FuzzyText>
+          </button>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,73 +1,420 @@
 /* styles/Layout.module.css */
 
 .layout {
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
-    background: linear-gradient(135deg, #ff5f6d, #ffc371); /* Funky background gradient */
-    color: #fff;
-    font-family: 'Poppins', sans-serif; /* Modern font */
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #1f1f1f; /* Dark header for contrast */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #ffffff;
-    transition: color 0.3s ease;
-  }
-  
-  .logo:hover {
-    color: #ffcc00; /* Funky hover effect */
-  }
-  
-  .main {
-    flex: 1;
-    padding: 2rem;
+    background-color: #000;
+    color: #00FF00;
+    font-family: 'VT323', monospace;
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.6s ease-out; /* Smooth entry animation */
-  }
-  
-  .footer {
-    text-align: center;
+}
+
+/* CRT screen effect */
+.layout::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(
+            rgba(0, 255, 0, 0.03) 50%, 
+            rgba(0, 0, 0, 0.1) 50%
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0, 255, 0, 0.04),
+            rgba(0, 255, 0, 0.04) 3px,
+            transparent 3px
+        );
+    background-size: 100% 2px, 4px 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Main container */
+.container {
+    width: 100%;
+    max-width: 1200px;
     padding: 1rem;
-    background-color: #1f1f1f;
-    color: #fff;
-    border-top: 2px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
+    position: relative;
+    z-index: 2;
+    border: 2px solid #00FF00;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    padding: 1rem;
+    border-bottom: 2px solid #00FF00;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.terminalBar {
+    border: 1px solid #00FF00;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-family: 'VT323', monospace;
+    background: #000;
+}
+
+.terminalTitle {
+    color: #00FF00;
+    font-family: 'VT323', monospace;
+}
+
+.terminalWindow {
+    border: 2px solid #00FF00;
+    background: #000;
+    padding: 1rem;
+    margin: 1rem 0;
+    position: relative;
+}
+
+/* Loading screen */
+.loadingScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.bootSequence {
+    font-family: 'VT323', monospace;
+    color: #00FF00;
+    white-space: pre;
+    line-height: 1.5;
+}
+
+/* Swap container */
+.swapContainer {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    border: 2px solid #00FF00;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Form elements */
+.inputGroup {
+    width: 100%;
+    max-width: 500px;
+    margin: 1rem auto;
+    padding: 1rem;
+    border: 1px solid #00FF00;
+    text-align: center;
+}
+
+.terminalLabel {
+    color: #00FF00;
+    font-family: 'VT323', monospace;
+    margin-bottom: 0.5rem;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.amountInput,
+.tokenSelect {
+    background: #000;
+    border: 1px solid #00FF00;
+    color: #00FF00;
+    padding: 0.5rem;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    width: 100%;
+}
+
+.amountInput:focus,
+.tokenSelect:focus {
+    outline: none;
+    border-color: #00FF00;
+}
+
+.tokenSelect option {
+    background: #000;
+    color: #00FF00;
+}
+
+/* Button */
+.swapButton {
+    width: 100%;
+    padding: 1rem;
+    background: #000;
+    border: 1px solid #00FF00;
+    color: #00FF00;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.swapButton:hover:not(:disabled) {
+    background: #001100;
+}
+
+.swapButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-style: dashed;
+}
+
+/* Overlay */
+.swappingOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border: 2px solid #00FF00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Terminal text */
+.terminalText {
+    color: #00FF00;
+    font-family: 'VT323', monospace;
+    white-space: pre;
+    text-align: center;
+}
+
+.terminalDivider {
+    width: 100%;
+    text-align: center;
+    margin: 2rem 0;
+    color: #00FF00;
+}
+
+.terminalFooter {
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #00FF00;
+}
+
+/* Footer */
+.footer {
+    padding: 1rem;
+    border-top: 2px solid #00FF00;
+    font-family: 'VT323', monospace;
+    text-align: left;
+}
+
+/* Terminal cursor animation */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.terminalPrompt::after {
+    content: '█';
+    animation: blink 1s steps(1) infinite;
+    font-family: 'VT323', monospace;
+}
+
+/* CRT flicker effect */
+@keyframes flicker {
+    0% { opacity: 0.97; }
+    5% { opacity: 0.95; }
+    10% { opacity: 0.9; }
+    15% { opacity: 0.95; }
+    20% { opacity: 0.98; }
+    25% { opacity: 0.95; }
+    30% { opacity: 0.9; }
+    35% { opacity: 0.95; }
+    40% { opacity: 0.98; }
+    45% { opacity: 0.95; }
+    50% { opacity: 0.9; }
+    55% { opacity: 0.95; }
+    60% { opacity: 0.98; }
+    65% { opacity: 0.95; }
+    70% { opacity: 0.9; }
+    75% { opacity: 0.95; }
+    80% { opacity: 0.98; }
+    85% { opacity: 0.95; }
+    90% { opacity: 0.9; }
+    95% { opacity: 0.95; }
+    100% { opacity: 0.98; }
+}
+
+.layout {
+    animation: flicker 0.15s infinite;
+}
+
+@media (max-width: 768px) {
+    .inputWrapper {
+        flex-direction: column;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+
+    .terminalText {
+        font-size: 14px;
     }
-  }
-  
-  @media (max-width: 768px) {
-    .header {
-      flex-direction: column;
+
+    .terminalButton {
+        min-width: 150px;
+        font-size: 1rem;
+        padding: 0.6rem 1rem;
     }
-  
-    .main {
-      padding: 1rem;
+
+    .buttonGroup {
+        flex-direction: column;
+        align-items: center;
     }
-  }
+}
+
+.walletContainer {
+    position: relative;
+    padding: 1rem;
+    border: 2px solid #00FF00;
+    background: #000;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 600px;
+}
+
+.terminalBox {
+    padding: 1rem;
+    border: 1px solid #00FF00;
+    background: #000;
+    text-align: center;
+}
+
+.walletInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.terminalButton {
+    background: #000;
+    border: 1px solid #00FF00;
+    color: #00FF00;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 200px;
+}
+
+.terminalButton:hover:not(:disabled) {
+    background: #001100;
+    border-style: dashed;
+}
+
+.terminalButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-style: dashed;
+}
+
+.terminalButton::before {
+    content: '>';
+    position: absolute;
+    left: 10px;
+    color: #00FF00;
+}
+
+.terminalInput,
+.terminalSelect {
+    background: #000;
+    border: 1px solid #00FF00;
+    color: #00FF00;
+    padding: 0.8rem;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+.terminalInput::placeholder {
+    color: #00FF00;
+    opacity: 0.5;
+}
+
+.terminalSelect option {
+    background: #000;
+    color: #00FF00;
+    padding: 0.5rem;
+}
+
+.terminalInput:focus,
+.terminalSelect:focus {
+    outline: none;
+    border-style: dashed;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.terminalHeader {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.processingOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border: 2px solid #00FF00;
+}
+
+.connectingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
   
