@@ -102,7 +102,11 @@ const PriceChart: React.FC = () => {
             x: {
               grid: {
                 color: 'rgba(0, 255, 0, 0.1)',
-                borderColor: '#00FF00',
+                display: true,
+              },
+              border: {
+                color: '#00FF00',
+                display: true,
               },
               ticks: {
                 color: '#00FF00',
@@ -115,7 +119,11 @@ const PriceChart: React.FC = () => {
             y: {
               grid: {
                 color: 'rgba(0, 255, 0, 0.1)',
-                borderColor: '#00FF00',
+                display: true,
+              },
+              border: {
+                color: '#00FF00',
+                display: true,
               },
               ticks: {
                 color: '#00FF00',
